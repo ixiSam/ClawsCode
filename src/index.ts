@@ -1,4 +1,5 @@
 import OpenAI from "openai";
+import { toolDefinitions } from "./tools";
 
 async function main(){
   const[, , flag, prompt] = process.argv;
@@ -17,6 +18,7 @@ async function main(){
   const response = await client.responses.create({
     model: "openai/gpt-5-nano",
     input: prompt,
+    tools : toolDefinitions,
   });
 
 console.log(response.output_text);
