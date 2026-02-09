@@ -33,6 +33,8 @@ export async function runAgentLoop(client: OpenAI, config: AppConfig, initialPro
       break;
     }
 
+    await handleResponseOutput(response.output);
+
     for (const item of response.output) {
       history.push(item as ResponseInputItem);
     }
