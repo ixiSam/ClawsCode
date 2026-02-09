@@ -18,4 +18,3 @@ export const toolDefinitions: FunctionTool[] = [
     "strict": true
   }
 ];
-  
