@@ -1,17 +1,17 @@
 import { initializeConfig } from "./core/config";
-import { createAIClient, getChatResponse, handleResponseOutput } from "./core/agent";
+import { createAIClient, runAgentLoop } from "./core/agent";
 
 async function main() {
   try {
     const config = initializeConfig();
     const client = createAIClient(config);
 
-    const response = await getChatResponse(client, config, config.prompt);
+    const finalMessage = await runAgentLoop(client, config, config.prompt);
 
-    if (response.output?.length) {
-      await handleResponseOutput(response.output);
+    if (finalMessage) {
+      console.log(finalMessage);
     } else {
-      console.log("No output from the model");
+      console.log("No response from the model");
     }
   } catch (error) {
     console.error("An error occurred:", error);
