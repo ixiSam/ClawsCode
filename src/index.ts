@@ -6,13 +6,7 @@ async function main() {
     const config = initializeConfig();
     const client = createAIClient(config);
 
-    const finalMessage = await runAgentLoop(client, config, config.prompt);
-
-    if (finalMessage) {
-      console.log(finalMessage);
-    } else {
-      console.log("No response from the model");
-    }
+    await runAgentLoop(client, config, config.prompt);
   } catch (error) {
     console.error("An error occurred:", error);
     process.exit(1);
