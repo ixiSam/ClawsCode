@@ -1,4 +1,8 @@
 import fs from "fs/promises";
+import { exec } from "child_process";
+import { promisify } from "util";
+
+const execAsync = promisify(exec);
 
 export async function handleRead(args: { file_path: string }): Promise<string> {
   try {
@@ -30,12 +34,23 @@ export async function handleWrite(args: {file_path: string, content: string}): P
   }
 }
 
+export async function handleBash(args: { command: string }): Promise<string> {
+  try {
+    const { stdout, stderr } = await execAsync(args.command);
+    return stdout + stderr;
+  } catch (error) {
+    return `Error executing command: ${error instanceof Error ? error.message : String(error)}`;
+  }
+}
+
 export async function handleToolCall(name: string, args: any): Promise<string> {
   switch (name) {
     case "Read":
       return await handleRead(args);
     case "Write":
       return await handleWrite(args);
+    case "Bash":
+      return await handleBash(args);
     default:
       const msg = `Unknown tool called: ${name}`;
       console.warn(msg);
