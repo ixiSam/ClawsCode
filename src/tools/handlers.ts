@@ -15,18 +15,6 @@ export async function handleRead(args: { file_path: string }): Promise<string> {
 
 export async function handleWrite(args: {file_path: string, content: string}): Promise<string>{
   try {
-    let stats;
-    try {
-      stats = await fs.stat(args.file_path);
-    } catch {
-      stats = null;
-    }
-    
-    if (stats && stats.size > 0) {
-      await fs.appendFile(args.file_path, args.content, "utf-8");
-      return `Appended ${args.content.length} bytes to ${args.file_path}`;
-    }
-    
     await fs.writeFile(args.file_path, args.content, "utf-8");
     return `Wrote ${args.content.length} bytes to ${args.file_path}`;
   } catch (error) {
