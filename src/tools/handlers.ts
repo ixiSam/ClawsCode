@@ -31,14 +31,14 @@ export async function handleBash(args: { command: string }): Promise<string> {
   }
 }
 
-export async function handleToolCall(name: string, args: any): Promise<string> {
+export async function handleToolCall(name: string, args: unknown): Promise<string> {
   switch (name) {
     case "Read":
-      return await handleRead(args);
+      return handleRead(args as { file_path: string });
     case "Write":
-      return await handleWrite(args);
+      return handleWrite(args as { file_path: string; content: string });
     case "Bash":
-      return await handleBash(args);
+      return handleBash(args as { command: string });
     default:
       const msg = `Unknown tool called: ${name}`;
       console.warn(msg);
